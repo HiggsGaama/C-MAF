@@ -33,11 +33,11 @@ The **`AgentWorkflowBuilder`** class provides first-class fluent builders for th
 
 ```mermaid
 flowchart TD
-    AWB["AgentWorkflowBuilder"] --> Seq["Sequential<br/>BuildSequential()"]
-    AWB --> Conc["Concurrent<br/>BuildConcurrent()"]
-    AWB --> Hand["Handoff<br/>CreateHandoffBuilderWith()"]
-    AWB --> Group["Group Chat<br/>CreateGroupChatBuilderWith()"]
-    AWB --> Mag["Magentic<br/>CreateMagenticBuilderWith()"]
+    AWB["AgentWorkflowBuilder"] --> Seq["Sequential\nBuildSequential()"]
+    AWB --> Conc["Concurrent\nBuildConcurrent()"]
+    AWB --> Hand["Handoff\nCreateHandoffBuilderWith()"]
+    AWB --> Group["Group Chat\nCreateGroupChatBuilderWith()"]
+    AWB --> Mag["Magentic\nCreateMagenticBuilderWith()"]
 ```
 
 ---

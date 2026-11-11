@@ -53,7 +53,7 @@ flowchart TD
         EventCheck{"RequestInfoEvent\nEmitted?"}
         Reviewer["Human Approver\n(Terminal / Dashboard)"]
         EventCheck -->|Yes| Reviewer
-        Reviewer -->|run.SendResponseAsync(approved)| Fulfillment
+        Reviewer -->|"run.SendResponseAsync(approved)"| Fulfillment
     end
 
     Stage3 -.-> EventCheck

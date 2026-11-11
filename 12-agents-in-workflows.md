@@ -106,7 +106,7 @@ sequenceDiagram
     participant Caller as Workflow Caller
     participant Input as Input Channel
     participant Host as AIAgentHostExecutor
-    participant LLM as Underling AIAgent / LLM
+    participant LLM as Underlying AIAgent / LLM
 
     Caller->>Input: Send ChatMessage("Translate this")
     Input->>Host: Delivers ChatMessage
@@ -187,23 +187,23 @@ To achieve this seamlessly, you must observe the **message type contracts**:
 
 ```mermaid
 flowchart LR
-    subgraph Deterministic C#
-        A["InputValidator<br/>Executor(string, string)"]
+    subgraph Det1["Deterministic C#"]
+        A["InputValidator\nExecutor(string, string)"]
     end
-    subgraph Adapter
-        B["StringToChatAdapter<br/>[SendsMessage(ChatMessage)]<br/>[SendsMessage(TurnToken)]"]
+    subgraph Ad["Adapter"]
+        B["StringToChatAdapter\n[SendsMessage(ChatMessage)]\n[SendsMessage(TurnToken)]"]
     end
-    subgraph AI Agent
-        C["AgentHostExecutor<br/>(AIAgent)"]
+    subgraph Ag["AI Agent"]
+        C["AgentHostExecutor\n(AIAgent)"]
     end
-    subgraph Deterministic C#
-        D["ResultFormatter<br/>Executor(List(ChatMessage), string)"]
+    subgraph Det2["Deterministic C#"]
+        D["ResultFormatter\nExecutor(List of ChatMessage, string)"]
     end
 
-    A -->|string| B
-    B -->|ChatMessage| C
-    B -.->|TurnToken| C
-    C -->|List(ChatMessage)| D
+    A -->|"string"| B
+    B -->|"ChatMessage"| C
+    B -.->|"TurnToken"| C
+    C -->|"List of ChatMessage"| D
 ```
 
 ---

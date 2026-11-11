@@ -1,0 +1,166 @@
+<style>
+  .mermaid-diagram {
+    display: flex;
+    justify-content: center;
+    margin: 1.25rem 0;
+    padding: 1rem;
+    border: 1px solid rgba(128, 128, 128, 0.22);
+    border-radius: 6px;
+    background: transparent;
+    overflow-x: auto;
+  }
+  .mermaid-diagram svg {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+  function parseRgb(color) {
+    const m = color && color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+    if (!m) return null;
+    return { r: +m[1], g: +m[2], b: +m[3], a: m[4] === undefined ? 1 : +m[4] };
+  }
+
+  function isDarkPage() {
+    const bodyStyle = getComputedStyle(document.body);
+    const htmlStyle = getComputedStyle(document.documentElement);
+    const bg = parseRgb(bodyStyle.backgroundColor);
+    const effective = (bg && bg.a > 0) ? bg : parseRgb(htmlStyle.backgroundColor);
+    if (!effective || effective.a === 0) {
+      return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    const luminance = (0.2126 * effective.r + 0.7152 * effective.g + 0.0722 * effective.b) / 255;
+    return luminance < 0.5;
+  }
+
+  function getThemeConfig() {
+    const bodyStyle = getComputedStyle(document.body);
+    const fontFamily = bodyStyle.fontFamily || '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
+    const textColor = bodyStyle.color || (isDarkPage() ? "#c9d1d9" : "#24292e");
+    const dark = isDarkPage();
+
+    if (dark) {
+      const bg = bodyStyle.backgroundColor && bodyStyle.backgroundColor !== "rgba(0, 0, 0, 0)"
+        ? bodyStyle.backgroundColor
+        : "#0d1117";
+      return {
+        theme: "base",
+        themeVariables: {
+          darkMode: true,
+          background: "transparent",
+          fontFamily,
+          fontSize: "14px",
+          primaryColor: "#161b22",
+          primaryTextColor: textColor,
+          primaryBorderColor: "#30363d",
+          secondaryColor: "#1f2937",
+          secondaryTextColor: textColor,
+          secondaryBorderColor: "#388bfd",
+          tertiaryColor: bg,
+          tertiaryTextColor: textColor,
+          tertiaryBorderColor: "#30363d",
+          lineColor: "#8b949e",
+          textColor,
+          mainBkg: "#161b22",
+          nodeBorder: "#30363d",
+          clusterBkg: "rgba(255, 255, 255, 0.03)",
+          clusterBorder: "#30363d",
+          titleColor: textColor,
+          edgeLabelBackground: bg,
+          actorBkg: "#161b22",
+          actorBorder: "#58a6ff",
+          actorTextColor: textColor,
+          actorLineColor: "#30363d",
+          signalColor: textColor,
+          signalTextColor: textColor,
+          labelBoxBkgColor: "#161b22",
+          labelBoxBorderColor: "#30363d",
+          labelTextColor: textColor,
+          loopTextColor: textColor,
+          noteBkgColor: "#1c2536",
+          noteBorderColor: "#388bfd",
+          noteTextColor: textColor,
+          activationBkgColor: "#1c2536",
+          activationBorderColor: "#58a6ff",
+          classText: textColor
+        }
+      };
+    }
+
+    // Light theme matched to GitHub Pages Primer (jekyll-theme-primer)
+    return {
+      theme: "base",
+      themeVariables: {
+        darkMode: false,
+        background: "transparent",
+        fontFamily,
+        fontSize: "14px",
+        primaryColor: "#f6f8fa",
+        primaryTextColor: textColor,
+        primaryBorderColor: "#d1d5da",
+        secondaryColor: "#f1f8ff",
+        secondaryTextColor: textColor,
+        secondaryBorderColor: "#c8e1ff",
+        tertiaryColor: "#ffffff",
+        tertiaryTextColor: textColor,
+        tertiaryBorderColor: "#e1e4e8",
+        lineColor: "#586069",
+        textColor,
+        mainBkg: "#f6f8fa",
+        nodeBorder: "#d1d5da",
+        clusterBkg: "#fafbfc",
+        clusterBorder: "#e1e4e8",
+        titleColor: textColor,
+        edgeLabelBackground: "#ffffff",
+        actorBkg: "#f6f8fa",
+        actorBorder: "#0366d6",
+        actorTextColor: textColor,
+        actorLineColor: "#d1d5da",
+        signalColor: textColor,
+        signalTextColor: textColor,
+        labelBoxBkgColor: "#f6f8fa",
+        labelBoxBorderColor: "#d1d5da",
+        labelTextColor: textColor,
+        loopTextColor: textColor,
+        noteBkgColor: "#f1f8ff",
+        noteBorderColor: "#79b8ff",
+        noteTextColor: textColor,
+        activationBkgColor: "#f1f8ff",
+        activationBorderColor: "#0366d6",
+        classText: textColor
+      }
+    };
+  }
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    const blocks = document.querySelectorAll("div.language-mermaid, pre > code.language-mermaid");
+    if (!blocks.length) return;
+
+    const nodes = [];
+    for (const block of blocks) {
+      const target = block.tagName === "CODE" ? block.parentElement : block;
+      if (!target || !target.parentNode) continue;
+
+      const codeEl = block.tagName === "CODE" ? block : block.querySelector("code");
+      const source = (codeEl ? codeEl.textContent : block.textContent).trim();
+
+      const container = document.createElement("div");
+      container.className = "mermaid mermaid-diagram";
+      container.textContent = source;
+
+      target.replaceWith(container);
+      nodes.push(container);
+    }
+
+    const themeConfig = getThemeConfig();
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: "loose",
+      ...themeConfig
+    });
+
+    await mermaid.run({ nodes });
+  });
+</script>

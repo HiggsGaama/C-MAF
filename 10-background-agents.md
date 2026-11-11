@@ -43,10 +43,10 @@ flowchart TD
   subgraph BackgroundResponses["Pattern B: Background Responses (Provider Continuation)"]
     direction TB
     Host["Host Application"]
-    Host -->|RunAsync(AllowBackgroundResponses=true)| Server["OpenAI / Foundry Service"]
-    Server -- Returns ContinuationToken (In Progress) --> Host
-    Host -->|Task.Delay + Poll with ContinuationToken| Server
-    Server -- Final Response (ContinuationToken = null) --> Host
+    Host -->|"RunAsync(AllowBackgroundResponses=true)"| Server["OpenAI / Foundry Service"]
+    Server -->|"Returns ContinuationToken (In Progress)"| Host
+    Host -->|"Task.Delay + Poll with ContinuationToken"| Server
+    Server -->|"Final Response (ContinuationToken = null)"| Host
   end
 ```
 

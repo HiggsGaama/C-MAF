@@ -168,18 +168,18 @@ By default, an `AIAgent` executes a single run: the user sends input, the agent 
 sequenceDiagram
   autonumber
   actor User
-  participant Loop as LoopAgent
+  participant LA as LoopAgent
   participant Agent as HarnessAgent
   participant Eval as LoopEvaluator
 
-  User->>Loop: RunAsync("Research Seattle tech market")
+  User->>LA: RunAsync("Research Seattle tech market")
   loop Until Evaluator returns Stop or MaxIterations reached
-    Loop->>Agent: RunAsync(session)
-    Agent-->>Loop: AgentResponse (Turn complete)
-    Loop->>Eval: EvaluateAsync(context)
-    Eval-->>Loop: LoopEvaluation.Continue(feedback)
+    LA->>Agent: RunAsync(session)
+    Agent-->>LA: AgentResponse (Turn complete)
+    LA->>Eval: EvaluateAsync(context)
+    Eval-->>LA: LoopEvaluation.Continue(feedback)
   end
-  Loop-->>User: Final AgentResponse
+  LA-->>User: Final AgentResponse
 ```
 
 The framework provides several built-in evaluators:

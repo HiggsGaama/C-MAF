@@ -140,13 +140,13 @@ flowchart TD
   end
 
   subgraph ConditionalEdge["2. Conditional Edge"]
-    C1["Source"] -->|AddEdge(condition)| C2["True Branch"]
+    C1["Source"] -->|"AddEdge(condition)"| C2["True Branch"]
   end
 
   subgraph SwitchEdge["3. Switch-Case Edge"]
-    S1["Source"] -->|AddCase<T>(is A)| S2["Handler A"]
-    S1 -->|AddCase<T>(is B)| S3["Handler B"]
-    S1 -->|WithDefault| S4["Default Handler"]
+    S1["Source"] -->|"AddCase(is A)"| S2["Handler A"]
+    S1 -->|"AddCase(is B)"| S3["Handler B"]
+    S1 -->|"WithDefault"| S4["Default Handler"]
   end
 
   subgraph FanOutIn["4. Fan-Out / Fan-In Barrier"]
